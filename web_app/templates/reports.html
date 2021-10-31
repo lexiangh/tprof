@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+  </head>
+  
+  <body>
+    <div data-role="page" id="pageone">
+      <div data-role="header">
+        <h1>Reports</h1>
+      </div>
+
+      <div data-role="main" class="ui-content">
+        {% for l2_reps in reps %}
+          {% set rep_num =  loop.index %}
+          {% set serv = l2_reps[0][0][0]["l1"]["serv"] %}
+          {% set op = l2_reps[0][0][0]["l1"]["op"] %}
+          {% set req_count = l2_reps[0][0][0]["l1"]["req_count"] %}
+          {% set op_count = l2_reps[0][0][0]["l1"]["op_count"] %}
+          {% set op_dur = (l2_reps[0][0][0]["l1"]["op_dur"]/10**6)|round(1) %}
+
+          <div data-role="collapsible" data-collapsed="false">
+            <h1>Operation: {{ op }} in {{serv}}</h1>
+            This operation has {{ op_count }} invocations out of {{ req_count }} requests, of which the average operation_self duration is {{ op_dur }}ms.
+            {% for l3_reps in l2_reps %}
+              {% set req_type = l3_reps[0][0]["l2"]["req_type"] %}
+              {% set dir_l2 = l3_reps[0][0]["l2"]["dir_l2"] %}
+              {% set is_tail = l3_reps[0][0]["l2"]["is_tail"] %}
+              {% set l2_group_length = l3_reps[0][0]["l2"]["l2_group_length"] %}
+              {% set l2_group_length_pct = (l2_group_length/req_count*100)|round(1) %}
+              {% if is_tail %}
+                {% set tail_scale = l3_reps[0][0]["l2"]["tail_scale"]|round(1) %}
+              {% endif %}
+              {% set req_dur = (l3_reps[0][0]["l2"]["req_dur"]/10**6)|round(1) %}
+
+              {% if loop.index == 1 %}
+                <div data-role="collapsible" data-collapsed="false">
+              {% else %}
+                <div data-role="collapsible">
+              {% endif %}
+         
+                <h1>Request type: {{ req_type }} - {{l2_group_length_pct}}% of all traces</h1>
+
+                {% if is_tail %}
+                  {% include 'tail.html' %}
+                {% else %}
+                  {% include 'non-tail.html' %}
+                {% endif %}
+
+                {% for l4_reps in l3_reps %}
+                    {% set l3_group_idx = l4_reps[0]["l3"]["l3_group_idx"] %}
+                    {% set l3_ordinal_idx = l4_reps[0]["l3"]["ordinal_idx"] %}
+                    {% set l3_mode = l4_reps[0]["l3"]["l3_mode"] %}
+                    {% set num_of_child = l4_reps[0]["l3"]["num_of_child"] %}
+                    {% set l3_group_length = l4_reps[0]["l3"]["l3_group_length"] %}
+                    {% set l3_group_length_pct = (l3_group_length/req_count*100)|round(1) %}
+                    {% if l3_mode == "CSL" %}
+                      {% set child_idx = l4_reps[0]["l3"]["child_idx"]%}
+                      {% set child_pct = (l4_reps[0]["l3"]["child_pct"]*100)|round(1) %}
+                    {% elif l3_mode == "LPL" %}
+                      {% set last_pct = (l4_reps[0]["l3"]["last_pct"]*100)|round(1) %}
+                    {% endif %}
+                    {% if loop.index == 1 %}
+                      <div data-role="collapsible" data-collapsed="false">
+                    {% else %}
+                      <div data-role="collapsible">
+                    {% endif %}
+
+                    {% if l3_mode == "CSL" %}
+                      <h1>{{ child_idx }} child starts late - Group {{ l3_group_idx }} in layer 3 - {{ l3_group_length_pct }}% of all traces</h1>
+                      The {{l3_ordinal_idx}} most time-consuming invocation (i.e. span) of this operation triggers {{ num_of_child }} child(ren). The {{ child_idx }} child of this span starts late, and {{ child_pct }}% of its time was spent on waiting for that child to start across the group.
+                    {% elif l3_mode == "LPL" %}
+                      <h1>Last part of span is slow - Group {{ l3_group_idx }} in layer 3 - {{ l3_group_length_pct }}% of all traces</h1>
+                      The {{l3_ordinal_idx}}  most time-consuming invocation (i.e. span) of this operation triggers {{ num_of_child }} child(ren). The last part of this span (i.e. after all children complete) takes long, which comprises {{ last_pct }}% of the full span duration across the group.
+                    {% else %}
+                      <h1>Full span is slow - Group {{ l3_group_idx }} in layer 3 - {{ l3_group_length_pct }}% of all traces</h1>
+                      The {{l3_ordinal_idx}} most time-consuming invocation (i.e. span) of this operation triggers no child, thus the whole span is suspicious.
+                    {% endif %}
+                    
+                    {% for rep in l4_reps %}
+                      {% set l4_group_idx = rep["l4"]["l4_group_idx"] %}
+                      {% set l4_group_length = rep["l4"]["l4_group_length"] %}
+                      {% set l4_group_length_pct = (l4_group_length/req_count*100)|round(1) %}
+                      {% if loop.index == 1 %}
+                        <div data-role="collapsible" data-collapsed="false">
+                      {% else %}
+                        <div data-role="collapsible">
+                      {% endif %}
+                        <h1>Group {{ l4_group_idx }} in layer 4 - {{ l4_group_length_pct }}% of all traces</h1>
+                        {% include 'report.html' %}
+                        </div>
+                    {% endfor %}
+                  </div> {# end collapsible#}
+                {% endfor %}
+              </div> {# end collapsible#}
+            {% endfor %}
+          </div> {# end collapsible#}
+        {% endfor %}
+      </div>
+      
+    </div>
+  </body>
+</html>
