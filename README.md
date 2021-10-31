@@ -6,10 +6,10 @@ tprof is a distributed systems performance profiler powered by the core ideas of
 Requirement: Ubuntu 20.04
 
 ```
-./tprof.sh
+./start.sh
 ```
 
-This script should take care of installing all required packages and running through the process to generate demo bug reports looking like this:
+This script should take care of installing all the required packages and running through the process to generate demo bug reports looking like this:
 
 ![Example bug report](figures/example_bug_report.png)
 
