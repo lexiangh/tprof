@@ -54,3 +54,6 @@ location = {Seattle, WA, USA},
 series = {SoCC '21}
 }
 ```
+
+## Disclaimer
+The api_v2, googleapis, grpc-gateway and jaeger in this repo are third-party modules whose owners hold the copyrights. 
