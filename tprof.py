@@ -30,11 +30,11 @@ def main():
     trace_ids = []
     gather_counter = 1
 
-    # start running experiments    
-    run = app.RunApp(250)
+    print("start running applications")
+    run = app.RunApp(500)
     start_time, end_time, search_depth = run.run()
     print(f"start_time: {start_time}, end_time: {end_time}, search depth: {search_depth}")
-    print("Finished running experiments")
+    print("Finished running applications")
 
     # start gathering traces from jaeger
     while(len(trace_ids) == 0):
@@ -44,7 +44,7 @@ def main():
         gather_counter = gather_counter + 1
     print("Finished gathering {} data from jaeger".format(len(trace_ids)))
 
-    # start analyzing traces
+    print("start analyzing traces")
     init_path = os.getcwd() + f"/results"
     shutil.rmtree(init_path, ignore_errors=True)
     os.mkdir(init_path)

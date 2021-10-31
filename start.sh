@@ -25,10 +25,10 @@ sleep 5
 
 #run flask web application to generate report
 cd ./web_app
-./web_app.py ../results/*.p
-sleep 2
+./web_app.py ../results/*.p &
+sleep 5
 
 #open the report webpage
-xdg-open http://localhost:5000/reports
+xdg-open http://localhost:5000/reports &
 
 cd -
