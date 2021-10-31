@@ -16,7 +16,9 @@ This script should take care of installing all the required packages and running
 Please note that the applications included in this repo are for demo purposes, and you can check out the following paper for detailed evaluation on complex microservice systems.
 
 ## Publication
-[ACM SoCC'21] tprof: Performance profiling via structural aggregation and automated analysis of distributed systems traces
+["[ACM SoCC'21] tprof: Performance profiling via structural aggregation and automated analysis of distributed systems traces"](https://dl.acm.org/doi/10.1145/3472883.3486994)
+
+Authors: Lexiang Huang, Timothy Zhu (Penn State University)
 
 Please cite our work if you find it useful:
 ```

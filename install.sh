@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#install required packages and preparing environment
+#install the required packages and preparing environment
 sudo apt -y install git
 sudo apt -y install python3-pip
 sudo apt -y install libcurl4

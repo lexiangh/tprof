@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install required packages
+# install the required packages
 ./install.sh
 
 #set up jaeger-all-in-one
@@ -20,10 +20,10 @@ sudo docker run -d --name jaeger \
 
 sleep 5
 
-#run application and let tprof collect/analyze traces
+#run applications and let tprof collect/analyze traces
 ./tprof.py
 
-#run flask web application to generate report
+#run flask web application to generate reports
 cd ./web_app
 ./web_app.py ../results/*.p &
 sleep 5
