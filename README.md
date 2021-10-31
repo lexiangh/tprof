@@ -3,13 +3,13 @@
 tprof is a distributed systems performance profiler powered by the core ideas of structural aggregation and automated analysis of distributed systems traces.
 
 ## How to run
-Requirement: Ubuntu 20.04
+Requirement: Ubuntu 20.04 with UI
 
 ```
 ./start.sh
 ```
 
-This script should take care of installing all the required packages and running through the process to generate demo bug reports looking like this:
+This script should take care of installing all the required packages and running through the process (a.k.a. push-button) to generate demo bug reports looking like this:
 
 ![Example bug report](figures/example_bug_report.png)
 
@@ -24,7 +24,7 @@ Please cite our work if you find it useful:
 ```
 @inproceedings{10.1145/3472883.3486994,
 author = {Huang, Lexiang and Zhu, Timothy},
-title = {Tprof: Performance Profiling via Structural Aggregation and Automated Analysis of Distributed Systems Traces},
+title = {tprof: Performance Profiling via Structural Aggregation and Automated Analysis of Distributed Systems Traces},
 year = {2021},
 isbn = {9781450386388},
 publisher = {Association for Computing Machinery},
