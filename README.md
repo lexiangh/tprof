@@ -22,7 +22,7 @@ Authors: Lexiang Huang, Timothy Zhu (Penn State University)
 
 Please cite our work if you find it useful:
 ```
-@inproceedings{10.1145/3472883.3486994,
+@inproceedings{tprof,
 author = {Huang, Lexiang and Zhu, Timothy},
 title = {tprof: Performance Profiling via Structural Aggregation and Automated Analysis of Distributed Systems Traces},
 year = {2021},
@@ -31,23 +31,6 @@ publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
 url = {https://doi.org/10.1145/3472883.3486994},
 doi = {10.1145/3472883.3486994},
-abstract = {The traditional approach for performance debugging relies upon performance profilers
-(e.g., gprof, VTune) that provide average function runtime information. These aggregate
-statistics help identify slow regions affecting the entire workload, but they are
-ill-suited for identifying slow regions that only impact a fraction of the workload,
-such as tail latency effects. This paper takes a new approach to performance profiling
-by utilizing distributed tracing systems (e.g., Dapper, Zipkin, Jaeger). Since traces
-provide detailed timing information on a per-request basis, it is possible to group
-and aggregate tracing data in many different ways to identify the slow parts of the
-system. Our new approach to trace aggregation uses the structure embedded within traces
-to hierarchically group similar traces and calculate increasingly detailed aggregate
-statistics based on how the traces are grouped. We also develop an automated tool
-for analyzing the hierarchy of statistics to identify the most likely performance
-issues. Our case study across two complex distributed systems illustrates how our
-tool is able to find multiple performance issues that lead to 10x and 28x performance
-improvements in terms of average and tail latency, respectively. Our comparison with
-a state-of-the-art industry tool shows that our tool can pinpoint performance slowdowns
-more accurately than current approaches.},
 booktitle = {Proceedings of the ACM Symposium on Cloud Computing},
 pages = {76–91},
 numpages = {16},
